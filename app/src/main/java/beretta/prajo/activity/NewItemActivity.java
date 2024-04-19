@@ -1,4 +1,4 @@
-package beretta.prajo.lista.activity;
+package beretta.prajo.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
