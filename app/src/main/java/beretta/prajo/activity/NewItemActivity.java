@@ -17,7 +17,10 @@ import android.widget.Toast;
 import beretta.prajo.lista.R;
 
 public class NewItemActivity extends AppCompatActivity {
+    //identificador de chamada
     static int PHOTO_PICKER_REQUEST = 1;
+
+    //guarda o endereco da foto selecionada pelo usuario, e nao a foto em si.
     Uri photoSelected = null;
 
     @Override
@@ -26,12 +29,22 @@ public class NewItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_item);
 
 
+        //obtendo o ImageButton
         ImageButton imgCI = findViewById(R.id.imbCl);
+
+        //ouvidor de cliques do imageButton
         imgCI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //ao clicar havera a abertura da galeria para que uma foto seja escolhida
+
+                //criando uma intencao implícito que abre um documento
                 Intent photoPickerIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+
+                //definindo o tipo de documento esperado como tipo imagem
                 photoPickerIntent.setType("image/*");
+
+                //executa a Intent
                 startActivityForResult(photoPickerIntent, PHOTO_PICKER_REQUEST);
             }
         });
