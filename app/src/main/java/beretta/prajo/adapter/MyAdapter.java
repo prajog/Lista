@@ -24,6 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter{
         this.itens = itens;
     }
 
+    //cria elementos de interface para um item
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

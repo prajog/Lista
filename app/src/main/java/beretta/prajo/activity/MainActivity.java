@@ -66,12 +66,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //verifica se as condicoes de retorno foram cumpridas
         if(requestCode == NEW_ITEM_REQUEST) {
             if(resultCode == Activity.RESULT_OK) {
+                //cria um objeto de MyItem para guardar os dados do item
                 MyItem myItem = new MyItem();
+
+                //obtem os dados retornados por NewItemActivity (titulo e descricao e foto) e os guarda dentro de myItem
                 myItem.title = data.getStringExtra("title");
                 myItem.description = data.getStringExtra("description");
                 myItem.photo = data.getData();
+
+                //adiciona o item a uma lista de itens
                 itens.add(myItem);
                 myAdapter.notifyItemInserted(itens.size()-1);
             }

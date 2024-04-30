@@ -49,35 +49,54 @@ public class NewItemActivity extends AppCompatActivity {
             }
         });
 
+        //obtem botao de adicionar item
         Button btnAddItem = findViewById(R.id.btnAddItem);
 
+        //setando ouvidor de cliques do botao de adicionar item
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //verifica se nenhuma foto foi selecionada
                 if (photoSelected == null) {
+                    //exibe mensagem de erro
                     Toast.makeText(NewItemActivity.this, "É necessário selecionar uma imagem!", Toast.LENGTH_LONG).show();
                     return;
                 }
 
+                //obtem a editText com o titulo
                 EditText etTitle = findViewById(R.id.etTitle);
+                //converte o texto do titulo em string
                 String title = etTitle.getText().toString();
+
+                //verifica se o titulo esta vazio
                 if (title.isEmpty()){
+                    //exibe mensagem de erro
                     Toast.makeText(NewItemActivity.this, "É necessário inserir um título", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 EditText etDesc = findViewById(R.id.etDesc);
                 String desc = etDesc.getText().toString();
+
+                //verifica se o campo de descricao esta vaziop
                 if (desc.isEmpty()){
+                    //exibe mensagem de erro
                     Toast.makeText(NewItemActivity.this, "É necessário inserir uma descrição", Toast.LENGTH_LONG).show();
                     return;
                 }
 
+                //cria uma intent para guardar os dados a serem retornados a MainActivity
                 Intent i = new Intent();
+
+                //seta o Uri da imagem selecionada dentro do Intent
                 i.setData(photoSelected);
+                //seta o titulo dentro da Intent
                 i.putExtra("title", title);
+                //seta o descricao dentro da Intent
                 i.putExtra("description", desc);
+                //metodo que indica o resultado da Activity
                 setResult(Activity.RESULT_OK, i);
+                //finaliza a activity
                 finish();
             }
         });
@@ -87,10 +106,17 @@ public class NewItemActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //verifica se requestCode eh referente ao fornecido na chamada de startActivityForResult com id PHOTO_PICKER_REQUEST
         if(requestCode == PHOTO_PICKER_REQUEST){
+            //verifica se o resultCode eh um codigo de sucesso
             if(resultCode == Activity.RESULT_OK){
+
+                //obtem o Uri da imagem escolhida e guarda dentro do atributo de classe photoSelected
                 photoSelected = data.getData();
+                //obtem a ImageView
                 ImageView imvfotoPreview = findViewById(R.id.imvPhotoPreview);
+
+                //seta o Uri na ImageView para que a foto seja exibida na app
                 imvfotoPreview.setImageURI(photoSelected);
             }
         }
