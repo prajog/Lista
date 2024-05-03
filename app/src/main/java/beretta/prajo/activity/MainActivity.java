@@ -47,18 +47,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //obtemos o RecyclerView (ele serve para criar uma lista generica)
         RecyclerView rvItens = findViewById(R.id.rvItens);
 
-        // Ensina o Recycler View a construir e preencher a lista
+        // Ensina o RecycleView a construir e preencher a lista
+
+        //cria o myAdapter
         myAdapter = new MyAdapter(this, itens);
+        //seta o myAdapter dentro do RecycleView
         rvItens.setAdapter(myAdapter);
 
+        //metodo que indica ao rv que nao ha variacao de tamanho entre os itens da lista
+        //Isso faz com que a construcao da lista seja mais rapida
         rvItens.setHasFixedSize(true);
 
+        //cria um gerenciador de layout do tipo linear
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+        //seta o gerenciador de layout no RecycleView
         rvItens.setLayoutManager(layoutManager);
 
+        //cria um decorador para a lista, que consiste apenas em uma linha separando cada item
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvItens.getContext(), DividerItemDecoration.VERTICAL);
+        //seta o decorador no rv
         rvItens.addItemDecoration(dividerItemDecoration);
 
     }
