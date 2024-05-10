@@ -88,8 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 myItem.description = data.getStringExtra("description");
                 myItem.photo = data.getData();
 
-                //adiciona o item a uma lista de itens
+                //adiciona o item a uma lista de itens que eh repassada para o Adapter
                 itens.add(myItem);
+                //notifica o Adapter para que o RecycleView se atualize e exiba o novo item
                 myAdapter.notifyItemInserted(itens.size()-1);
             }
         }
