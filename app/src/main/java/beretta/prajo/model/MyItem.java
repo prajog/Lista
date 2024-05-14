@@ -1,10 +1,11 @@
 package beretta.prajo.model;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
 
 public class MyItem {
-    //guarda o endereco da imagem do item
-    public Uri photo;
+    //bitmap eh uma classe que representa uma imagem carregada na memoria
+    //guarda o bitmap da imagem selecionada
+    public Bitmap photo;
     //guarda o titulo do item
     public String title;
     //guarda a descricao do item

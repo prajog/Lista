@@ -8,23 +8,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import beretta.prajo.adapter.MyAdapter;
 import beretta.prajo.lista.R;
+import beretta.prajo.model.MainActivityViewModel;
 import beretta.prajo.model.MyItem;
+import beretta.prajo.util.Util;
 
 public class MainActivity extends AppCompatActivity {
     //identificador da chamada
     static int NEW_ITEM_REQUEST = 1;
-    List<MyItem> itens = new ArrayList<>();
-
     MyAdapter myAdapter;
 
     @Override
@@ -50,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
         //obtemos o RecyclerView (ele serve para criar uma lista generica)
         RecyclerView rvItens = findViewById(R.id.rvItens);
 
-        // Ensina o RecycleView a construir e preencher a lista
+        MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        List<MyItem> itens = vm.getItens();
 
+        // Ensina o RecycleView a construir e preencher a lista
         //cria o myAdapter
         myAdapter = new MyAdapter(this, itens);
         //seta o myAdapter dentro do RecycleView
@@ -86,7 +91,19 @@ public class MainActivity extends AppCompatActivity {
                 //obtem os dados retornados por NewItemActivity (titulo e descricao e foto) e os guarda dentro de myItem
                 myItem.title = data.getStringExtra("title");
                 myItem.description = data.getStringExtra("description");
-                myItem.photo = data.getData();
+                Uri selectedPhotoUri = data.getData();
+
+                try {
+                    //carrega a imagem e guarda dentro de um Bitmap, criando uma copia da imagem selecionada
+                    Bitmap photo = Util.getBitmap(MainActivity.this, selectedPhotoUri, 100, 100);
+
+                    //guarda o Bitmap da imagem dentro do objeto photo do tipo MyItem
+                    myItem.photo = photo;
+
+                } catch (FileNotFoundException e){
+                    //excecao
+                    e.printStackTrace();
+                }
 
                 //adiciona o item a uma lista de itens que eh repassada para o Adapter
                 itens.add(myItem);
