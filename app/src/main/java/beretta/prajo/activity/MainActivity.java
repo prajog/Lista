@@ -2,6 +2,7 @@ package beretta.prajo.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,11 +54,14 @@ public class MainActivity extends AppCompatActivity {
         //obtemos o RecyclerView (ele serve para criar uma lista generica)
         RecyclerView rvItens = findViewById(R.id.rvItens);
 
+        //obtem o ViewModel referente a MainActivity
         MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+        //obtem a lista de itens a partir do ViewModel
         List<MyItem> itens = vm.getItens();
 
         // Ensina o RecycleView a construir e preencher a lista
-        //cria o myAdapter
+        //cria o myAdapter e passa a lista para o Adapter
         myAdapter = new MyAdapter(this, itens);
         //seta o myAdapter dentro do RecycleView
         rvItens.setAdapter(myAdapter);
@@ -104,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
                     //excecao
                     e.printStackTrace();
                 }
+
+                //obtem o ViewModel da MainActivity
+                MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+                //cria variavel que obtem a lista guardada no View Model
+                List<MyItem> itens = vm.getItens();
 
                 //adiciona o item a uma lista de itens que eh repassada para o Adapter
                 itens.add(myItem);

@@ -2,6 +2,7 @@ package beretta.prajo.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,12 +16,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import beretta.prajo.lista.R;
+import beretta.prajo.model.NewItemActivityViewModel;
 
 public class NewItemActivity extends AppCompatActivity {
     //identificador de chamada
     static int PHOTO_PICKER_REQUEST = 1;
 
-    //guarda o endereco da foto selecionada pelo usuario, e nao a foto em si.
     Uri photoSelected = null;
 
     @Override
@@ -28,6 +29,20 @@ public class NewItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item);
 
+        //obtem o ViewModel referente a NewItemActivity
+        NewItemActivityViewModel vm = new ViewModelProvider(this).get(NewItemActivityViewModel.class);
+
+        //obtem o enereco URI guardado dentro do ViewModel
+        Uri selectPhotoLocation = vm.getSelectedPhotoLocation();
+
+        //verifica se o endereco URI nao eh nulo
+        if(selectPhotoLocation != null){
+            //caso nao seja nulo:
+            //obtem a imageView
+            ImageView imvPhotoPreview = findViewById(R.id.imvPhotoPreview);
+            //seta a imagem selecionada pelo usuario no ImageView da tela
+            imvPhotoPreview.setImageURI(selectPhotoLocation);
+        }
 
         //obtendo o ImageButton
         ImageButton imgCI = findViewById(R.id.imbCl);
@@ -56,6 +71,7 @@ public class NewItemActivity extends AppCompatActivity {
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //verifica se nenhuma foto foi selecionada
                 if (photoSelected == null) {
                     //exibe mensagem de erro
@@ -75,7 +91,9 @@ public class NewItemActivity extends AppCompatActivity {
                     return;
                 }
 
+                //obtem a editText com a descricao
                 EditText etDesc = findViewById(R.id.etDesc);
+                //converte o texto da descricao em string
                 String desc = etDesc.getText().toString();
 
                 //verifica se o campo de descricao esta vaziop
@@ -114,10 +132,17 @@ public class NewItemActivity extends AppCompatActivity {
                 //obtem o Uri da imagem escolhida e guarda dentro do atributo de classe photoSelected
                 photoSelected = data.getData();
                 //obtem a ImageView
-                ImageView imvfotoPreview = findViewById(R.id.imvPhotoPreview);
-
+                ImageView imvPhotoPreview = findViewById(R.id.imvPhotoPreview);
                 //seta o Uri na ImageView para que a foto seja exibida na app
-                imvfotoPreview.setImageURI(photoSelected);
+                imvPhotoPreview.setImageURI(photoSelected);
+
+                //obtem o ViewModel de NewItemActivity
+                NewItemActivityViewModel vm = new ViewModelProvider(this).get(NewItemActivityViewModel.class);
+                //seta o endereco URI da imagem selecionada pelo usuario dentro do ViewModel
+                vm.setSelectedPhotoLocation(photoSelected);
+
+
+
             }
         }
     }
